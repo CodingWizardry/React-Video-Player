@@ -1,0 +1,97 @@
+/* Player container */
+.player-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* Fullscreen mode */
+.player-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
+
+/* ReactPlayer */
+.react-player {
+  width: 100%;
+  height: 100%;
+}
+
+/* Controls container */
+.controls-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+/* Control buttons */
+.control-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 18px;
+  margin: 0 5px;
+}
+
+/* Slider for volume and progress */
+.slider {
+  width: 200px;
+  margin: 0 10px;
+}
+
+/* Progress bar */
+.progress-bar {
+  width: calc(100% - 20px);
+  margin: 0 10px;
+}
+
+/* Time display */
+.time-display {
+  margin: 0 10px;
+  font-size: 14px;
+}
+
+/* Fullscreen and minimize buttons */
+.fullscreen-button {
+  margin-left: auto;
+}
+
+/* Minimized player */
+.minimized-player {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 200px;
+  height: 150px;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  z-index: 9999;
+}
+
+/* Close button for minimized player */
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+
+/* Hover effects */
+.control-button:hover,
+.fullscreen-button:hover,
+.close-button:hover {
+  opacity: 0.8;
+}
