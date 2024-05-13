@@ -82,6 +82,7 @@ const Player = () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [getNextVideoUrl, getPreviousVideoUrl]);
+
   return (
     <Box
       elevation={3}
@@ -89,170 +90,187 @@ const Player = () => {
       onMouseEnter={() => setControlsVisible(true)}
       onMouseLeave={() => setControlsVisible(false)}
     >
-      {minimized ? (
-        <Paper
-          elevation={3}
-          sx={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            width: minimizedWidth,
-            height: minimizedHeight,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            p: 1,
-          }}
-        >
-          <ReactPlayer
-            ref={playerRef}
-            url={currentProduct?.videoUrl}
-            volume={muted ? 0 : volume}
-            muted={muted}
-            playbackRate={playbackRate}
-            onProgress={handleProgress}
-            onClick={handleVideoClick}
-            width="100%"
-            height="100%"
-          />
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <IconButton onClick={toggleMinimized}>
-              <FullscreenExitIcon />
-            </IconButton>
-            <IconButton onClick={closeMinimized}>
-              <CloseIcon />
-            </IconButton>
-          </Box>
-        </Paper>
-      ) : (
-        <Box
-          className={`player ${fullScreen ? "fullscreen" : ""}`}
-          sx={{
-            position: "relative",
-            overflow: "hidden",
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          <ReactPlayer
-            ref={playerRef}
-            url={currentProduct?.videoUrl}
-            playing={playing}
-            volume={muted ? 0 : volume}
-            muted={muted}
-            playbackRate={playbackRate}
-            onProgress={handleProgress}
-            onClick={handleVideoClick}
-            width="100%"
-            height="100%"
-          />
-          {controlsVisible || !playing ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                pl: "30px",
-                pr: "20px",
-              }}
-            >
-              <Box
-                className="controls"
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <Tooltip title={muted ? "Unmute" : "Mute"}>
-                  <IconButton onClick={handleToggleMute} color="primary">
-                    {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
-                  </IconButton>
-                </Tooltip>
-                <Slider
-                  min={0}
-                  max={1}
-                  step={0.01}
-                  value={volume}
-                  onChange={handleVolumeChange}
-                  sx={{ width: 200 }}
-                />
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Tooltip title="Rewind 10 seconds">
-                  <IconButton onClick={() => handleSeek(-10)} color="primary">
-                    <FastRewindIcon />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title={playing ? "Pause" : "Play"}>
-                  <IconButton onClick={handleTogglePlayPause} color="primary">
-                    {playing ? <PauseIcon /> : <PlayArrowIcon />}
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Forward 10 seconds">
-                  <IconButton onClick={() => handleSeek(10)} color="primary">
-                    <FastForwardIcon />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Typography
-                  variant="body2"
-                  sx={{ marginLeft: 2, marginRight: 1 }}
-                >
-                  Speed:
-                </Typography>
-                <Slider
-                  min={0.5}
-                  max={4}
-                  step={0.25}
-                  value={playbackRate}
-                  onChange={handleSpeedChange}
-                  sx={{ width: 100 }}
-                />
-                <Typography variant="body2" sx={{ marginLeft: 2 }}>
-                  {playbackRate.toFixed(2)}x
-                </Typography>
-                <Tooltip title={fullScreen ? "Exit Fullscreen" : "Fullscreen"}>
-                  <IconButton onClick={handleToggleFullScreen} color="primary">
-                    {fullScreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Minimize">
-                  <IconButton
-                    sx={{ mb: 1.5 }}
-                    onClick={toggleMinimized}
-                    color="primary"
-                  >
-                    <MinimizeIcon />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            </Box>
-          ) : null}
-          <Box
-            className="progress-overlay"
+      <Box
+        className={`player ${fullScreen ? "fullscreen" : ""}`}
+        sx={{
+          position: "relative",
+          overflow: "hidden",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        {minimized ? (
+          <Paper
+            elevation={3}
             sx={{
-              position: "absolute",
-              bottom: "3vw",
-              left: 0,
-              width: "100%",
-              paddingLeft: "50px",
-              mb: playing ? 0 : 3,
-              zIndex: 1,
+              position: "fixed",
+              bottom: "20px",
+              right: "20px",
+              width: minimizedWidth,
+              height: minimizedHeight,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              p: 1,
             }}
           >
-            <Typography variant="body2" sx={{ color: "#fff" }}>
-              {formatTime(progress.playedSeconds)} / {formatTime(duration)}
-            </Typography>
-            <Slider
-              min={0}
-              max={duration}
-              value={progress.playedSeconds}
-              onChange={handleProgressChange}
-              sx={{ width: "92%", color: "#fff" }}
+            <ReactPlayer
+              ref={playerRef}
+              url={currentProduct?.videoUrl}
+              playing={playing} 
+              volume={muted ? 0 : volume}
+              muted={muted}
+              playbackRate={playbackRate}
+              onProgress={handleProgress}
+              onClick={handleVideoClick}
+              width="100%"
+              height="100%"
             />
-          </Box>
-        </Box>
-      )}
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <IconButton onClick={closeMinimized}>
+                <FullscreenExitIcon />
+              </IconButton>
+              <IconButton onClick={closeMinimized}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
+          </Paper>
+        ) : (
+          <>
+            <ReactPlayer
+              ref={playerRef}
+              url={currentProduct?.videoUrl}
+              playing={playing}
+              volume={muted ? 0 : volume}
+              muted={muted}
+              playbackRate={playbackRate}
+              onProgress={handleProgress}
+              onClick={handleVideoClick}
+              width="100%"
+              height="100%"
+            />
+            {controlsVisible || !playing ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  pl: "30px",
+                  pr: "20px",
+                }}
+              >
+                <Box
+                  className="controls"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Tooltip title={muted ? "Unmute" : "Mute"}>
+                    <IconButton onClick={handleToggleMute} color="primary">
+                      {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
+                    </IconButton>
+                  </Tooltip>
+                  <Slider
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    value={volume}
+                    onChange={handleVolumeChange}
+                    sx={{ width: 200 }}
+                  />
+                </Box>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Tooltip title="Rewind 10 seconds">
+                    <IconButton
+                      onClick={() => handleSeek(-10)}
+                      color="primary"
+                    >
+                      <FastRewindIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title={playing ? "Pause" : "Play"}>
+                    <IconButton
+                      onClick={handleTogglePlayPause}
+                      color="primary"
+                    >
+                      {playing ? <PauseIcon /> : <PlayArrowIcon />}
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Forward 10 seconds">
+                    <IconButton
+                      onClick={() => handleSeek(10)}
+                      color="primary"
+                    >
+                      <FastForwardIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ marginLeft: 2, marginRight: 1 }}
+                  >
+                    Speed:
+                  </Typography>
+                  <Slider
+                    min={0.5}
+                    max={4}
+                    step={0.25}
+                    value={playbackRate}
+                    onChange={handleSpeedChange}
+                    sx={{ width: 100 }}
+                  />
+                  <Typography variant="body2" sx={{ marginLeft: 2 }}>
+                    {playbackRate.toFixed(2)}x
+                  </Typography>
+                  <Tooltip
+                    title={fullScreen ? "Exit Fullscreen" : "Fullscreen"}
+                  >
+                    <IconButton
+                      onClick={handleToggleFullScreen}
+                      color="primary"
+                    >
+                      {fullScreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Minimize">
+                    <IconButton
+                      sx={{ mb: 1.5 }}
+                      onClick={toggleMinimized}
+                      color="primary"
+                    >
+                      <MinimizeIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Box>
+            ) : null}
+            <Box
+              className="progress-overlay"
+              sx={{
+                position: "absolute",
+                bottom: "3vw",
+                left: 0,
+                width: "100%",
+                paddingLeft: "50px",
+                mb: playing ? 0 : 3,
+                zIndex: 1,
+              }}
+            >
+              <Typography variant="body2" sx={{ color: "#fff" }}>
+                {formatTime(progress.playedSeconds)} / {formatTime(duration)}
+              </Typography>
+              <Slider
+                min={0}
+                max={duration}
+                value={progress.playedSeconds}
+                onChange={handleProgressChange}
+                sx={{ width: "92%", color: "#fff" }}
+              />
+            </Box>
+          </>
+        )}
+      </Box>
       {!playing && (
         <Box
           sx={{

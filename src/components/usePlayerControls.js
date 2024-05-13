@@ -1,5 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 
+// Your helper functions getNextVideoUrl and getPreviousVideoUrl
+// assuming you have defined them somewhere in your code
+
 export const usePlayerControls = () => {
   const [controlsVisible, setControlsVisible] = useState(true);
   const [playing, setPlaying] = useState(false);
@@ -93,10 +96,6 @@ export const usePlayerControls = () => {
     };
   }, []);
 
-  const handleTogglePlayPause = () => {
-    setPlaying((prevPlaying) => !prevPlaying); // Toggle the playing state
-  };
-
   const handleToggleMute = () => {
     // Toggle mute state
     setMuted((prevMuted) => !prevMuted);
@@ -188,13 +187,38 @@ export const usePlayerControls = () => {
     setMinimized((prevMinimized) => {
       if (!prevMinimized) {
         setLastPlayedSeconds(progress.playedSeconds);
+        setPlaying(true);
       } else {
+        setPlaying(false);
         if (lastPlayedSeconds > 0) {
           playerRef.current.seekTo(lastPlayedSeconds);
         }
       }
       return !prevMinimized;
     });
+  };
+  
+
+  // Restore last played position when maximizing or expanding
+  useEffect(() => {
+    if (!minimized && lastPlayedSeconds > 0) {
+      playerRef.current.seekTo(lastPlayedSeconds);
+      if (!playing) {
+        setPlaying(false);
+      }
+    }
+  }, [minimized, lastPlayedSeconds, playing]);
+
+  // Function to close the minimized player
+  const closeMinimized = () => {
+    setMinimized(false);
+  };
+
+  const handleTogglePlayPause = () => {
+    // Toggle playing state only if the player is not minimized
+    if (!minimized) {
+      setPlaying((prevPlaying) => !prevPlaying);
+    }
   };
 
   // Restore last played position when maximizing
@@ -204,10 +228,6 @@ export const usePlayerControls = () => {
     }
   }, [minimized, lastPlayedSeconds]);
 
-  // Function to close the minimized player
-  const closeMinimized = () => {
-    setMinimized(false);
-  };
   return {
     playing,
     muted,
