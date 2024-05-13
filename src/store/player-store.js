@@ -7,31 +7,31 @@ export const useStaticDataStore = create((set) => {
         id: 1,
         name: "Video 1",
         description: "Description for Video 1",
-        videoUrl: "./src/components/videos/video1.mp4",
+        videoUrl: "/videos/video1.mp4", // Corrected path
       },
       {
         id: 2,
         name: "Video 2",
         description: "Description for Video 2",
-        videoUrl: "./src/components/videos/video3.mp4",
+        videoUrl: "/videos/video3.mp4", // Corrected path
       },
       {
         id: 3,
         name: "Video 3",
         description: "Description for Video 3",
-        videoUrl: "./src/components/videos/video4.mp4",
+        videoUrl: "/videos/video4.mp4", // Corrected path
       },
       {
         id: 4,
         name: "Video 4",
         description: "Description for Video 4",
-        videoUrl: "./src/components/videos/video2.mp4",
+        videoUrl: "/videos/video2.mp4", // Corrected path
       },
       {
         id: 5,
         name: "Video 5",
         description: "Description for Video 5",
-        videoUrl: "./src/components/videos/video5.mp4",
+        videoUrl: "/videos/video5.mp4", // Corrected path
       },
     ],
 
